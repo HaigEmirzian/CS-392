@@ -10,14 +10,14 @@
 	
 */
 
-int cmpr_int(void*, void*) {
-	
-	/* Your code here */
+int cmpr_int(void* var1, void* var2) {
+    signed int difference = (char*)var2 - (char*)var1;
+    return difference
 }
 
-int cmpr_float(void*,void*) {
-	
-	/* Your code here */
+int cmpr_float(void* var1,void* var2) {
+	signed int difference = (char*)var2 - (char*)var1;
+    return difference
 }
 
 void print_int(void*) {
