@@ -20,18 +20,31 @@ int cmpr_float(void* var1,void* var2) {
     return difference;
 }
 
-void print_int(void*) {
-	
-	/* Your code here */
+void print_int(void* var) {
+    int length = sizeof(var)/sizeof(var[0]);
+
+	(int*)result = (int*)var;
+
+    for(int i = 0; i < length; i++){
+        printf("%d\n", result);
+    }
 }
 
-void print_float(void*) {
-	
-	/* Your code here */
+void print_float(void* var) {
+	int length = sizeof(var)/sizeof(var[0]);
+
+	(float*)result = (float*)var;
+    
+    for(int i = 0; i < length; i++){
+        printf("%f\n", result);
+    }
 }
 
 
 void* read_array(char* filename, char* format, size_t* len) {
-	
-	/* Your code here */
+	FILE* fp;
+    if((fp = fopen(filename, "r")) == NULL){
+        fprintf(stderr, "File failed to open.\n");
+        exit(1);
+    } 
 }
