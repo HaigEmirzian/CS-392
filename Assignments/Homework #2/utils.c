@@ -12,12 +12,12 @@
 
 int cmpr_int(void* var1, void* var2) {
     signed int difference = (char*)var2 - (char*)var1;
-    return difference
+    return difference;
 }
 
 int cmpr_float(void* var1,void* var2) {
 	signed int difference = (char*)var2 - (char*)var1;
-    return difference
+    return difference;
 }
 
 void print_int(void*) {
