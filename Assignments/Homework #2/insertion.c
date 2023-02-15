@@ -24,7 +24,7 @@ void iSort(void* base, size_t nel, size_t width, int (*compare)(void*,void*)) {
 	for(int i = 0; i < nel; i++){
 
 		u_int8_t j = i;
-		
+
 		while((j > 0) && (base[j-1] > base[j])){
 			swap(base[j], base[j-1]);
 			j -= 1;
