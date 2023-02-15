@@ -43,6 +43,7 @@ void print_float(void* var) {
 
 void* read_array(char* filename, char* format, size_t* len) {
 	FILE* fp;
+    
     if((fp = fopen(filename, "r")) == NULL){
         fprintf(stderr, "File failed to open.\n");
         exit(1);
