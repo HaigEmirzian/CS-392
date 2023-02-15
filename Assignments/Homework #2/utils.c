@@ -10,14 +10,30 @@
 	
 */
 
-int cmpr_int(void* var1, void* var2) {
-    signed int difference = (char*)var2 - (char*)var1;
-    return difference;
+int cmpr_int(void* a, void* b) {
+    int na = (*(int*) a);
+    int nb = (*(int*) b);
+    
+    if(na < nb){
+        return -1;
+    } else if(na > nb){
+        return 1;
+    } else{
+        return 0;
+    }
 }
 
-int cmpr_float(void* var1,void* var2) {
-	signed int difference = (char*)var2 - (char*)var1;
-    return difference;
+int cmpr_float(void* a,void* b) {
+	float na = (*(float*) a);
+    float nb = (*(float*) b);
+
+    if(na < nb){
+        return -1;
+    } else if(na > nb){
+        return 1;
+    } else{
+        return 0;
+    }
 }
 
 void print_int(void* var) {

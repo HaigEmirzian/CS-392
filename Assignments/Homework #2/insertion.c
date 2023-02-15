@@ -34,7 +34,13 @@ void iSort(void* base, size_t nel, size_t width, int (*compare)(void*,void*)) {
 
 
 void iPrint(void* base, size_t nel, size_t width, void (*print)(void*)) {
-	
-	/* Your code here */
-	
+	for(int i = 0; i < nel; i++){
+		if(typeof(i) == int){
+
+		} else if(typeof(i) == float){
+
+		} else{
+
+		}
+	}
 }
