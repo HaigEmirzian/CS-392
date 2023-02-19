@@ -1,7 +1,18 @@
 # Pledge: I pledge my honor that I have abided by the Stevens Honor System.
 # Name: Haig Emirzian
 
-all:
-	gcc -Wall -Werror -pedantic-errors -c utils.c insertion.c utils.o insertion.o -o sort
+
+all: main.o insertion.o utils.o
+	gcc main.o insertion.o utils.o -o a.out
+
+main.o: main.c
+	gcc main.c -c -Wall
+
+utils.o: utils.c
+	gcc utils.c -c
+
+insertion.o: insertion.c
+	gcc insertion.c -c
+
 clean:
-	rm -f *.o sort sort.exe
+	rm *.o

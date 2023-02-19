@@ -24,7 +24,7 @@ void iSort(void* base, size_t nel, size_t width, int (*compare)(void*,void*)) {
 	if(width == 4){
 		for(int i = 0; i < nel; i++){
 			u_int8_t j = i;
-			while((j > 0) && (base[j-1] > base[j])){
+			while((j > 0) && ((*compare)(base[j-1], base[j]) == 1)){
 				swap(base[j], base[j-1]);
 				u_int8_t temp = base[j];
 				base[j] = base[j-1];
@@ -35,7 +35,7 @@ void iSort(void* base, size_t nel, size_t width, int (*compare)(void*,void*)) {
 	} else if(width == 8){
 		for(int i = 0; i < nel; i++){
 			u_int8_t j = i;
-			while((j > 0) && (base[j-1] > base[j])){
+			while((j > 0) && ((*compare)(base[j-1], base[j]) == 1)){
 				swap(base[j], base[j-1]);
 				char temp = base[j];
 				base[j] = base[j-1];
@@ -51,13 +51,16 @@ void iSort(void* base, size_t nel, size_t width, int (*compare)(void*,void*)) {
 
 
 void iPrint(void* base, size_t nel, size_t width, void (*print)(void*)) {
-	for(int i = 0; i < nel; i++){
-		if(typeof(i) == int){
-
-		} else if(typeof(i) == float){
-
-		} else{
-
+	if(width == 4){
+		for(int i = 0; i < nel; i++){
+			(*print)(base[i]);
 		}
+	} else if(width == 8){
+		for(int i = 0; i < nel; i++){
+			(*print)(base[i]);
+		}
+	} else{
+		fprintf(stderr, "Error: Try again.\n");
+    	exit(1);
 	}
 }
