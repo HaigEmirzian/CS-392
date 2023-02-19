@@ -21,14 +21,31 @@
 
 
 void iSort(void* base, size_t nel, size_t width, int (*compare)(void*,void*)) {
-	for(int i = 0; i < nel; i++){
-
-		u_int8_t j = i;
-
-		while((j > 0) && (base[j-1] > base[j])){
-			swap(base[j], base[j-1]);
-			j -= 1;
+	if(width == 4){
+		for(int i = 0; i < nel; i++){
+			u_int8_t j = i;
+			while((j > 0) && (base[j-1] > base[j])){
+				swap(base[j], base[j-1]);
+				u_int8_t temp = base[j];
+				base[j] = base[j-1];
+				base[j-1] = temp;
+				j -= 1;
+			}
 		}
+	} else if(width == 8){
+		for(int i = 0; i < nel; i++){
+			u_int8_t j = i;
+			while((j > 0) && (base[j-1] > base[j])){
+				swap(base[j], base[j-1]);
+				char temp = base[j];
+				base[j] = base[j-1];
+				base[j-1] = atof(temp);
+				j -= 1;
+			}
+		}
+	} else{
+		fprintf(stderr, "Error: Try again.\n");
+    	exit(1);
 	}
 }
 
