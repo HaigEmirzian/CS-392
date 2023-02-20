@@ -15,9 +15,9 @@ int cmpr_int(void* a, void* b) {
     int na = (*(int*) a);
     int nb = (*(int*) b);
     
-    if((*na) < (*nb)){
+    if(na < nb){
         return -1;
-    } else if((*na) > (*nb)){
+    } else if(na > nb){
         return 1;
     } else{
         return 0;
@@ -28,17 +28,17 @@ int cmpr_float(void* a,void* b) {
 	float na = (*(float*) a);
     float nb = (*(float*) b);
 
-    if((*na) < (*nb)){
+    if(na < nb) {
         return -1;
-    } else if((*na) > (*nb)){
+    } else if(na > nb) {
         return 1;
-    } else{
+    } else {
         return 0;
     }
 }
 
 void print_int(void* var) {
-    (int*) result = (int*)var;
+    int *result = var;
     int length = sizeof(result) / sizeof(result[0]);
 
     for(int i = 0; i < length; i++){
@@ -47,7 +47,7 @@ void print_int(void* var) {
 }
 
 void print_float(void* var) {
-	(float*) result = (float*)var;
+	float *result = var;
     int length = sizeof(result) / sizeof(result[0]);
 
     for(int i = 0; i < length; i++){
@@ -66,35 +66,34 @@ void* read_array(char* filename, char* format, size_t* len) {
 
     int lineLength = 1024;
 
-    if(strcmp((*format), "%d") == 0){
-        int arrayLength = (*len) * 4;
-        char fgetsArray[lineLength];
-        int dataArray[arrayLength];
+    if(strcmp(format, "%d") == 0){
+        int arrayLength = *len;
+        int* dataArray = malloc(arrayLength * sizeof(int));
         
         int index = 0;
-        while(fgets(fgetsArray, lineLength, fp)){
-            dataArray[index] = atoi(arr1);
+        char fgetsArray[lineLength];
+        while (fgets(fgetsArray, lineLength, fp)){
+            dataArray[index] = atoi(fgetsArray);
             index++;
         }
         fclose(fp);
-        (void*)result = (int*)dataArray;
-        return result;
+        return dataArray;
     } 
     
     if(strcmp((*format), "%f") == 0){
-        int arrayLength = (*len) * 8;
-        char fgetsArray[lineLength];
-        int dataArray[arrayLength];
+        int arrayLength = *len;
+        float* dataArray = malloc(arrayLength * sizeof(float));
         
         int index = 0;
-        while(fgets(fgetsArray, lineLength, fp)){
-            dataArray[index] = atoi(arr1);
+        char fgetsArray[lineLength];
+        while (fgets(fgetsArray, lineLength, fp)) {
+            dataArray[index] = atof(fgetsArray);
             index++;
         }
         fclose(fp);
-        (void*)result = (float*)dataArray;
-        return result;
+        return dataArray;
     } 
+
     fprintf(stderr, "Error: Try again.\n");
     exit(1);
 }

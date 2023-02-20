@@ -2,7 +2,7 @@
 #include "utils.h"
 
 
-int main() {
+int main(int argc, char** argv) {
 	
 	/* You can assume command-line arguments are always correct:
 		e.g., ./a.out filename.txt %d
@@ -19,7 +19,7 @@ int main() {
 	int* arr = read_array(argv[1], argv[2], &len);
 	
 	iSort(arr, len, sizeof(int), &cmpr_int);
-	iPrint(arr, len. sizeof(int), &print_int);
+	iPrint(arr, len, sizeof(int), &print_int);
 	
 	free(arr);
 	
