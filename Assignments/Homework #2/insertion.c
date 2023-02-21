@@ -20,7 +20,7 @@
 	
 */
 
-
+//insertion sort
 void iSort(void* base, size_t nel, size_t width, int (*compare)(void*,void*)) {
 	char *temp = (char*)malloc(width);
 	for(int i = 0; i < nel; i++){
@@ -36,10 +36,10 @@ void iSort(void* base, size_t nel, size_t width, int (*compare)(void*,void*)) {
 	free(temp);
 }
 
-
+//printing numbers in order
 void iPrint(void* base, size_t nel, size_t width, void (*print)(void*)) {
 	char* array = (char*) base;
-	for(int i = 0; i < nel; i++){
-		(*print)(&array + (i * width));
+	for(size_t i = 0; i < nel; i++){
+		print(&array[i * width]);
 	}
 }

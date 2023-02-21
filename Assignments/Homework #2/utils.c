@@ -39,64 +39,70 @@ int cmpr_float(void* a,void* b) {
 }
 
 void print_int(void* var) {
-    int* result;
-    result = (int*) var;
-    int length = sizeof(result) / sizeof(int*);
-
-    for(int i = 0; i < length; i++){
-        printf("%d\n", result[i]);
-    }
+    int result = *((int*) var);
+    printf("%d\n", result);
+    
 }
 
 void print_float(void* var) {
-	float* result;
-    result = (float*) var;
-    int length = sizeof(result) / sizeof(float*);
-
-    for(int i = 0; i < length; i++){
-        printf("%f\n", result[i]);
-    }
+	float result = *((float*) var);
+    printf("%f\n", result);
 }
 
 
 void* read_array(char* filename, char* format, size_t* len) {
-	FILE* fp;
-    
-    if((fp = fopen((filename), "r")) == NULL){
+    FILE* fp;
+
+    if((fp = fopen(filename, "r")) == NULL){
         fprintf(stderr, "File failed to open.\n");
         exit(1);
     } 
 
     int lineLength = 1024;
+    int numberOfNewLines = 0;
 
     if(strcmp(format, "%d") == 0){
-        int arrayLength = *len;
-        int* dataArray = malloc(arrayLength * sizeof(int));
-        
         int index = 0;
         char fgetsArray[lineLength];
+        while(fgets(fgetsArray, lineLength, fp)){
+            numberOfNewLines++;
+        }
+
+        fseek(fp, 0, SEEK_SET);
+        int* dataArray = malloc(numberOfNewLines * sizeof(int));
+        index = 0;
+
         while(fgets(fgetsArray, lineLength, fp)){
             dataArray[index] = atoi(fgetsArray);
             index++;
         }
+
         fclose(fp);
+        *len = numberOfNewLines;
         return dataArray;
     } 
     
     if(strcmp(format, "%f") == 0){
-        int arrayLength = *len;
-        float* dataArray = malloc(arrayLength * sizeof(float));
-        
         int index = 0;
         char fgetsArray[lineLength];
+        while(fgets(fgetsArray, lineLength, fp)){
+            numberOfNewLines++;
+        }
+        fseek(fp, 0, SEEK_SET);
+
+        float* dataArray = malloc(numberOfNewLines * sizeof(float));
+        
+        index = 0;
         while(fgets(fgetsArray, lineLength, fp)){
             dataArray[index] = atof(fgetsArray);
             index++;
         }
+
         fclose(fp);
+        *len = numberOfNewLines;
         return dataArray;
     } 
 
-    fprintf(stderr, "Error: Try again.\n");
+    fprintf(stderr, "Try a different type.\n");
     exit(1);
 }
