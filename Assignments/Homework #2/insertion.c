@@ -40,6 +40,6 @@ void iSort(void* base, size_t nel, size_t width, int (*compare)(void*,void*)) {
 void iPrint(void* base, size_t nel, size_t width, void (*print)(void*)) {
 	char* array = (char*) base;
 	for(int i = 0; i < nel; i++){
-		print(&array[i * width]);
+		(*print)(&array + (i * width));
 	}
 }
