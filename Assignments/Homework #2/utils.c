@@ -75,7 +75,7 @@ void* read_array(char* filename, char* format, size_t* len) {
         
         int index = 0;
         char fgetsArray[lineLength];
-        while (fgets(fgetsArray, lineLength, fp)){
+        while(fgets(fgetsArray, lineLength, fp)){
             dataArray[index] = atoi(fgetsArray);
             index++;
         }
@@ -89,7 +89,7 @@ void* read_array(char* filename, char* format, size_t* len) {
         
         int index = 0;
         char fgetsArray[lineLength];
-        while (fgets(fgetsArray, lineLength, fp)) {
+        while(fgets(fgetsArray, lineLength, fp)){
             dataArray[index] = atof(fgetsArray);
             index++;
         }
