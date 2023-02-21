@@ -1,5 +1,6 @@
 #include "utils.h"
 #include <string.h>
+#include <stdlib.h>
 
 // Pledge: I pledge my honor that I have abided by the Stevens Honor System.
 // Name: Haig Emirzian
@@ -38,8 +39,9 @@ int cmpr_float(void* a,void* b) {
 }
 
 void print_int(void* var) {
-    int *result = var;
-    int length = sizeof(result) / sizeof(result[0]);
+    int* result;
+    result = (int*) var;
+    int length = sizeof(result) / sizeof(int*);
 
     for(int i = 0; i < length; i++){
         printf("%d\n", result[i]);
@@ -47,8 +49,9 @@ void print_int(void* var) {
 }
 
 void print_float(void* var) {
-	float *result = var;
-    int length = sizeof(result) / sizeof(result[0]);
+	float* result;
+    result = (float*) var;
+    int length = sizeof(result) / sizeof(float*);
 
     for(int i = 0; i < length; i++){
         printf("%f\n", result[i]);
@@ -59,7 +62,7 @@ void print_float(void* var) {
 void* read_array(char* filename, char* format, size_t* len) {
 	FILE* fp;
     
-    if((fp = fopen((*filename), "r")) == NULL){
+    if((fp = fopen((filename), "r")) == NULL){
         fprintf(stderr, "File failed to open.\n");
         exit(1);
     } 
@@ -80,7 +83,7 @@ void* read_array(char* filename, char* format, size_t* len) {
         return dataArray;
     } 
     
-    if(strcmp((*format), "%f") == 0){
+    if(strcmp(format, "%f") == 0){
         int arrayLength = *len;
         float* dataArray = malloc(arrayLength * sizeof(float));
         

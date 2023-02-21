@@ -1,14 +1,13 @@
 # Pledge: I pledge my honor that I have abided by the Stevens Honor System.
 # Name: Haig Emirzian
 
-CC = gcc
-CFLAGS = -c -g -Wall -Werror -pedantic-errors
-
-all: main.o insertion.o utils.o
-	$(CC) $(CFLAGS) $^ -o a.out
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
+a.out: main.o utils.o insertion.o
+	gcc main.o utils.o insertion.o -o a.out
+main.o: main.c
+	gcc -c -g -Wall -Werror -pedantic-errors main.c
+insertion.o: insertion.c insertion.h
+	gcc -c -g -Wall -Werror -pedantic-errors insertion.c
+utils.o: utils.c
+	gcc -c -g -Wall -Werror -pedantic-errors utils.c
 clean:
-	rm -f *.o a.out
+	rm -f insertion *.o

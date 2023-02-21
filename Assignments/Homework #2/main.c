@@ -2,7 +2,7 @@
 #include "utils.h"
 
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
 	
 	/* You can assume command-line arguments are always correct:
 		e.g., ./a.out filename.txt %d

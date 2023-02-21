@@ -1,4 +1,5 @@
 #include "insertion.h"
+#include <string.h>
 
 // Pledge: I pledge my honor that I have abided by the Stevens Honor System.
 // Name: Haig Emirzian
@@ -24,11 +25,11 @@ void iSort(void* base, size_t nel, size_t width, int (*compare)(void*,void*)) {
 	char *temp = (char*)malloc(width);
 	for(int i = 0; i < nel; i++){
 		u_int8_t j = i;
-		while((j > 0) && (compare(base + ((j-1) * width), base + (j * width))) == 1){
+		while ((j > 0) && (*compare)(((void *)((char *)base + ((j - 1) * width))),(void *)((char *)base + (j * width))) == 1){
 			//swap(base[j], base[j-1]);
-			memcpy(temp, base + (j * width), width);
-			memcpy(base + (j * width), base + ((j-1) * width), width);
-			memcpy(base + ((j-1) * width), temp, width);
+			memcpy(temp, (char *)base + j * width, width);
+			memcpy((char *)base + (j * width), (char *)base + ((j-1) * width), width);
+			memcpy((char *)base + ((j-1) * width), (char *)temp, width);
 			j -= 1;
 		}
 	}
@@ -37,7 +38,8 @@ void iSort(void* base, size_t nel, size_t width, int (*compare)(void*,void*)) {
 
 
 void iPrint(void* base, size_t nel, size_t width, void (*print)(void*)) {
+	char* array = (char*) base;
 	for(int i = 0; i < nel; i++){
-		print(base + i * width);
+		print(&array[i * width]);
 	}
 }
