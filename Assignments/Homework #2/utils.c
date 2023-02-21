@@ -12,6 +12,7 @@
 	
 */
 
+//compares ints in iSort
 int cmpr_int(void* a, void* b) {
     int na = (*(int*) a);
     int nb = (*(int*) b);
@@ -25,6 +26,7 @@ int cmpr_int(void* a, void* b) {
     }
 }
 
+//compares floats in iSort
 int cmpr_float(void* a,void* b) {
 	float na = (*(float*) a);
     float nb = (*(float*) b);
@@ -38,18 +40,20 @@ int cmpr_float(void* a,void* b) {
     }
 }
 
+//prints int in iPrint
 void print_int(void* var) {
     int result = *((int*) var);
     printf("%d\n", result);
     
 }
 
+//prints float in iPrint
 void print_float(void* var) {
 	float result = *((float*) var);
     printf("%f\n", result);
 }
 
-
+//reads every line from a file and stores each number in an array
 void* read_array(char* filename, char* format, size_t* len) {
     FILE* fp;
 
@@ -61,13 +65,14 @@ void* read_array(char* filename, char* format, size_t* len) {
     int lineLength = 1024;
     int numberOfNewLines = 0;
 
+    //executes if numbers in file are ints
     if(strcmp(format, "%d") == 0){
         int index = 0;
         char fgetsArray[lineLength];
         while(fgets(fgetsArray, lineLength, fp)){
             numberOfNewLines++;
         }
-
+        //creates an array of the data according to the number of lines
         fseek(fp, 0, SEEK_SET);
         int* dataArray = malloc(numberOfNewLines * sizeof(int));
         index = 0;
@@ -77,32 +82,36 @@ void* read_array(char* filename, char* format, size_t* len) {
             index++;
         }
 
+        //closes file and updates length
         fclose(fp);
         *len = numberOfNewLines;
         return dataArray;
     } 
     
+    //executes if numbers in file are floats
     if(strcmp(format, "%f") == 0){
         int index = 0;
         char fgetsArray[lineLength];
         while(fgets(fgetsArray, lineLength, fp)){
             numberOfNewLines++;
         }
+        //creates an array of the data according to the number of lines
         fseek(fp, 0, SEEK_SET);
-
         float* dataArray = malloc(numberOfNewLines * sizeof(float));
-        
         index = 0;
+
         while(fgets(fgetsArray, lineLength, fp)){
             dataArray[index] = atof(fgetsArray);
             index++;
         }
 
+        //closes file and updates length
         fclose(fp);
         *len = numberOfNewLines;
         return dataArray;
     } 
 
+    //if none return, then exit
     fprintf(stderr, "Try a different type.\n");
     exit(1);
 }
