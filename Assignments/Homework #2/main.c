@@ -18,8 +18,8 @@ int main(int argc, char* argv[]) {
 	size_t len = 0;
 	int* arr = read_array(argv[1], argv[2], &len);
 	
-	iSort(arr, len, sizeof(int), &cmpr_int);
-	iPrint(arr, len, sizeof(int), &print_int);
+	iSort(arr, len, sizeof(int), &cmpr_float);
+	iPrint(arr, len, sizeof(int), &print_float);
 	
 	free(arr);
 	
