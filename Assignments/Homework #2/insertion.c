@@ -39,7 +39,7 @@ void iSort(void* base, size_t nel, size_t width, int (*compare)(void*,void*)) {
 //printing numbers in order
 void iPrint(void* base, size_t nel, size_t width, void (*print)(void*)) {
 	char* array = (char*) base;
-	for(size_t i = 0; i < nel; i++){
+	for(int i = 0; i < nel; i++){
 		print(&array[i * width]);
 	}
 }
