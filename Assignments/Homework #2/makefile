@@ -7,7 +7,7 @@ main.o: main.c
 	gcc -c -g -Wall -Werror -pedantic-errors main.c
 insertion.o: insertion.c insertion.h
 	gcc -c -g -Wall -Werror -pedantic-errors insertion.c
-utils.o: utils.c
+utils.o: utils.c utils.h
 	gcc -c -g -Wall -Werror -pedantic-errors utils.c
 clean:
-	rm -f insertion *.o
+	rm -f *.o
