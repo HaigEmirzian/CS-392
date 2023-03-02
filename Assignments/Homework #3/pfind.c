@@ -17,7 +17,11 @@ bool validString(const char* permString){
             exit(EXIT_FAILURE);
         }
         //checks to see if either r,w,x,- are being used
-        else if((permString[i] != 'r') && (permString[i] != 'w') && (permString[i] != 'x') && (permString[i] != '-')){
+        else if((permString[i] != 'r') && 
+                (permString[i] != 'w') && 
+                (permString[i] != 'x') && 
+                (permString[i] != '-')){
+            
             fprintf(stderr, "Error: Permissions string '%s' is invalid.\n", permString);
             exit(EXIT_FAILURE);
         }
@@ -39,7 +43,10 @@ void navigatingDirectories(const char* directory, const char* permString){
 }
 
 int main(int argc, char* argv[]){
+    
     char* print = "rwxrwxrwx";
+    
     validString(print);
+
     return 0;
 }
