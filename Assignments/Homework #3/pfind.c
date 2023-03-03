@@ -43,10 +43,22 @@ bool validString(const char* permString){
 void navigatingFiles(const char* directory, const char* permString){
     DIR* dr;
     if((dr = opendir(directory)) == NULL){
+        readdir(dr);
         char path[100];
         realpath(directory, path);
         fprintf(stderr, "Error: Cannot open directory '%s'. Permission denied.\n", path);
-        exit(EXIT_FAILURE);
+        return;
+    }
+
+    while((dent = readdir(dr))!= NULL){
+        
+    }
+ 
+
+    if(S_ISREG(fileinfo.st_mode)){
+        //if reg file, then print file
+    } else if(S_ISDIR(fileinfo.st_mode)){
+        navigatingFiles(directory, permString);
     }
 
     //snprintf() to concatenate /home and test_dir /home/test_dir
@@ -82,20 +94,7 @@ void navigatingFiles(const char* directory, const char* permString){
 
     strcat(permBits, '\0');
 
-    if(S_ISREG(fileinfo.st_mode)){
-        //if reg file, then print file
-    } else if(S_ISDIR(fileinfo.st_mode)){
-        struct dirent* de;
-        while((de = readdir(dr)) != NULL){
-            if(strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0){
-                continue;
-            }
-            char* newDir = malloc(strlen(directory) + strlen(de->d_name) + 2);
-            snprintf(newDir, strlen(directory) + strlen(de->d_name) + 2, "%s/%s", directory, de->d_name);
-            navigatingFiles(newDir, permString);
-            free(newDir);
-        }
-    }
+    
 
     closedir(dr);
 }
