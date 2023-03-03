@@ -39,24 +39,50 @@ bool validString(const char* permString){
 
 //recursively navigates directory tree and prints out files that match target perms
 void navigatingFiles(const char* directory, const char* permString){
-    DIR* dr;
-    if((dr = opendir(directory)) == NULL){
-        char path[100];
-        realpath(directory, path);
-        fprintf(stderr, "Error: Cannot open directory '%s'. Permission denied.\n", path);
-        exit(EXIT_FAILURE);
-    }
+    // DIR* dr;
+    // if((dr = opendir(directory)) == NULL){
+    //     char path[100];
+    //     realpath(directory, path);
+    //     fprintf(stderr, "Error: Cannot open directory '%s'. Permission denied.\n", path);
+    //     exit(EXIT_FAILURE);
+    // }
+
+    // //snprintf() to concatenate /home and test_dir /home/test_dir
+    // //get perms of files or directory use stat() stat will give perms in number mode change to rwx format
+    // //use strcmp()
+    // //if statement: if file or dir, if dir then recursive call
+
+    // struct stat fileinfo;
+    // char* permBits = "";
+    // int status = stat(directory, &fileinfo);
+
+    // if((fileinfo.st_mode & S_IRUSR) == 1){
+    //     //strcat(permBits, )
+    // }
+
+
+    // if(S_ISREG(fileinfo.st_mode)){
+
+    // } else if(S_ISDIR(fileinfo.st_mode)){
+
+    // }
+
 }
 
-int main(int argc, char* argv[]){
+int main(){
     
     char* print = "rwxrwxrwx";
     
     validString(print);
 
-    char* danger_dir = "insertion.c";
+    char* danger_dir = "test_dir";
     char* permString = "rwxrwxrwx";
     navigatingFiles(danger_dir, permString);
+
+    char* test1 = "Hello ";
+    char* test2 = "World";
+    // strcat(test1, test2);
+    printf("%s\n",test1);
 
     return 0;
 }
