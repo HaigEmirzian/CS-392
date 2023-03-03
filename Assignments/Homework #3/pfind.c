@@ -38,8 +38,14 @@ bool validString(const char* permString){
 }
 
 //recursively navigates directory tree and prints out files that match target perms
-void navigatingDirectories(const char* directory, const char* permString){
-
+void navigatingFiles(const char* directory, const char* permString){
+    DIR* dr;
+    if((dr = opendir(directory)) == NULL){
+        char path[100];
+        realpath(directory, path);
+        fprintf(stderr, "Error: Cannot open directory '%s'. Permission denied.\n", path);
+        exit(EXIT_FAILURE);
+    }
 }
 
 int main(int argc, char* argv[]){
@@ -47,6 +53,10 @@ int main(int argc, char* argv[]){
     char* print = "rwxrwxrwx";
     
     validString(print);
+
+    char* danger_dir = "insertion.c";
+    char* permString = "rwxrwxrwx";
+    navigatingFiles(danger_dir, permString);
 
     return 0;
 }
