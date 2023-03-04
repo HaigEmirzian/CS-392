@@ -42,6 +42,8 @@ bool validString(const char* permString){
 //recursively navigates directory tree and prints out files that match target perms
 void navigatingFiles(const char* directory, const char* permString){
     DIR* dr;
+    //add dirent dent struct
+
     if((dr = opendir(directory)) == NULL){
         readdir(dr);
         char path[100];
@@ -51,10 +53,9 @@ void navigatingFiles(const char* directory, const char* permString){
     }
 
     while((dent = readdir(dr))!= NULL){
-        
+        //idk
     }
  
-
     if(S_ISREG(fileinfo.st_mode)){
         //if reg file, then print file
     } else if(S_ISDIR(fileinfo.st_mode)){
@@ -74,28 +75,61 @@ void navigatingFiles(const char* directory, const char* permString){
     char* x = "x";
     char* - = "-";
 
-    if((fileinfo.st_mode & S_IRUSR) || (fileinfo.st_mode & S_IRGRP) || (fileinfo.st_mode & S_IROTH)){
+    if((fileinfo.st_mode & S_IRUSR)){
         strcat(permBits, r);
     } else{
         strcat(permBits, -);
     }
 
-    if((fileinfo.st_mode & S_IWUSR) || (fileinfo.st_mode & S_IWGRP) || (fileinfo.st_mode & S_IWOTH)){
+    if((fileinfo.st_mode & S_IWUSR)){
         strcat(permBits, w);
     } else{
         strcat(permBits, -);
     }
 
-    if((fileinfo.st_mode & S_IXUSR) || (fileinfo.st_mode & S_IXGRP) || (fileinfo.st_mode & S_IXOTH)){
+    if((fileinfo.st_mode & S_IXUSR)){
+        strcat(permBits, x);
+    } else{
+        strcat(permBits, -);
+    }
+
+    if((fileinfo.st_mode & S_IRGRP)){
+        strcat(permBits, r);
+    } else{
+        strcat(permBits, -);
+    }
+
+    if((fileinfo.st_mode & S_IWGRP)){
+        strcat(permBits, w);
+    } else{
+        strcat(permBits, -);
+    }
+
+    if((fileinfo.st_mode & S_IXGRP)){
+        strcat(permBits, x);
+    } else{
+        strcat(permBits, -);
+    }
+
+    if((fileinfo.st_mode & S_IROTH)){
+        strcat(permBits, r);
+    } else{
+        strcat(permBits, -);
+    }
+
+    if((fileinfo.st_mode & S_IWOTH)){
+        strcat(permBits, w);
+    } else{
+        strcat(permBits, -);
+    }
+
+    if((fileinfo.st_mode & S_IXOTH)){
         strcat(permBits, x);
     } else{
         strcat(permBits, -);
     }
 
     strcat(permBits, '\0');
-
-    
-
     closedir(dr);
 }
 
