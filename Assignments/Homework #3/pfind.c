@@ -42,7 +42,8 @@ bool validString(const char* permString){
 //recursively navigates directory tree and prints out files that match target perms
 void navigatingFiles(const char* directory, const char* permString){
     DIR* dr;
-    //add dirent dent struct
+    struct stat fileinfo;
+    struct dirent* dir;
 
     if((dr = opendir(directory)) == NULL){
         readdir(dr);
@@ -51,98 +52,110 @@ void navigatingFiles(const char* directory, const char* permString){
         fprintf(stderr, "Error: Cannot open directory '%s'. Permission denied.\n", path);
         return;
     }
+    
+    while((dir = readdir(dr)) != NULL){
+        if(strcmp(dir->d_name, ".") == 0 || strcmp(dir->d_name, "..") == 0){
+            continue;
+        }
 
-    while((dent = readdir(dr))!= NULL){
-        //idk
+        char* newDir = malloc(strlen(directory) + strlen(dir->d_name) + 2);
+        snprintf(newDir, strlen(directory) + strlen(dir->d_name) + 2, "%s/%s", directory, dir->d_name);
+
+        
+        int status = stat(newDir, &fileinfo);
+
+        //snprintf() to concatenate /home and test_dir /home/test_dir
+        //get perms of files or directory use stat() stat will give perms in number mode change to rwx format
+        //use strcmp()
+        //if statement: if file or dir, if dir then recursive call
+
+        if(S_ISREG(fileinfo.st_mode)){
+            if(S_ISREG(fileinfo.st_mode)){
+            char permBits[10] = "";
+            char* r = "r";
+            char* w = "w";
+            char* x = "x";
+            char* dash = "-";
+
+            if((fileinfo.st_mode & S_IRUSR)){
+                strcat(permBits, r);
+            } else{
+                strcat(permBits, dash);
+            }
+
+            if((fileinfo.st_mode & S_IWUSR)){
+                strcat(permBits, w);
+            } else{
+                strcat(permBits, dash);
+            }
+
+            if((fileinfo.st_mode & S_IXUSR)){
+                strcat(permBits, x);
+            } else{
+                strcat(permBits, dash);
+            }
+
+            if((fileinfo.st_mode & S_IRGRP)){
+                strcat(permBits, r);
+            } else{
+                strcat(permBits, dash);
+            }
+
+            if((fileinfo.st_mode & S_IWGRP)){
+                strcat(permBits, w);
+            } else{
+                strcat(permBits, dash);
+            }
+
+            if((fileinfo.st_mode & S_IXGRP)){
+                strcat(permBits, x);
+            } else{
+                strcat(permBits, dash);
+            }
+
+            if((fileinfo.st_mode & S_IROTH)){
+                strcat(permBits, r);
+            } else{
+                strcat(permBits, dash);
+            }
+
+            if((fileinfo.st_mode & S_IWOTH)){
+                strcat(permBits, w);
+            } else{
+                strcat(permBits, dash);
+            }
+
+            if((fileinfo.st_mode & S_IXOTH)){
+                strcat(permBits, x);
+            } else{
+                strcat(permBits, dash);
+            }
+
+            strcat(permBits, "\0");
+
+            if(strcmp(permBits, permString) == 0){
+                printf("%s\n", dir->d_name);
+            }
+        } else if(S_ISDIR(fileinfo.st_mode)){
+            navigatingFiles(newDir, permString);
+        }
+
+        free(newDir);
     }
- 
-    if(S_ISREG(fileinfo.st_mode)){
-        //if reg file, then print file
-    } else if(S_ISDIR(fileinfo.st_mode)){
-        navigatingFiles(directory, permString);
-    }
 
-    //snprintf() to concatenate /home and test_dir /home/test_dir
-    //get perms of files or directory use stat() stat will give perms in number mode change to rwx format
-    //use strcmp()
-    //if statement: if file or dir, if dir then recursive call
-
-    struct stat fileinfo;
-    int status = stat(directory, &fileinfo);
-    char permBits[10] = "";
-    char* r = "r";
-    char* w = "w";
-    char* x = "x";
-    char* - = "-";
-
-    if((fileinfo.st_mode & S_IRUSR)){
-        strcat(permBits, r);
-    } else{
-        strcat(permBits, -);
-    }
-
-    if((fileinfo.st_mode & S_IWUSR)){
-        strcat(permBits, w);
-    } else{
-        strcat(permBits, -);
-    }
-
-    if((fileinfo.st_mode & S_IXUSR)){
-        strcat(permBits, x);
-    } else{
-        strcat(permBits, -);
-    }
-
-    if((fileinfo.st_mode & S_IRGRP)){
-        strcat(permBits, r);
-    } else{
-        strcat(permBits, -);
-    }
-
-    if((fileinfo.st_mode & S_IWGRP)){
-        strcat(permBits, w);
-    } else{
-        strcat(permBits, -);
-    }
-
-    if((fileinfo.st_mode & S_IXGRP)){
-        strcat(permBits, x);
-    } else{
-        strcat(permBits, -);
-    }
-
-    if((fileinfo.st_mode & S_IROTH)){
-        strcat(permBits, r);
-    } else{
-        strcat(permBits, -);
-    }
-
-    if((fileinfo.st_mode & S_IWOTH)){
-        strcat(permBits, w);
-    } else{
-        strcat(permBits, -);
-    }
-
-    if((fileinfo.st_mode & S_IXOTH)){
-        strcat(permBits, x);
-    } else{
-        strcat(permBits, -);
-    }
-
-    strcat(permBits, '\0');
     closedir(dr);
 }
 
 int main(){
     
     //tests validString
-    char* print = "rwxrwxrwx";
-    validString(print);
+    // char* print = "rwxrwxrwx";
+    // validString(print);
 
     //tests navigatingFiles
-    char* danger_dir = "test_dir";
-    char* permString = "rwxrwxrwx";
-    navigatingFiles(danger_dir, permString);
+    // char* danger_dir = "test_dir";
+    // char* permString = "rwxrwxrwx";
+    // navigatingFiles(danger_dir, permString);
 
     return 0;
 }
