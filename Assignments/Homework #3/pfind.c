@@ -46,14 +46,14 @@ void navigatingFiles(const char* directory, const char* permString){
     DIR* dr;
     struct dirent* dir;
     struct stat fileinfo;
-    char path[100];
+    char path[1024];
 
     if(validString(permString) != true){
         return;
     }
 
     if((dr = opendir(directory)) == NULL){
-        readdir(dr);
+        //readdir(dr);
         realpath(directory, path);
         fprintf(stderr, "Error: Cannot open directory '%s'. Permission denied.\n", path);
         return;
@@ -64,15 +64,15 @@ void navigatingFiles(const char* directory, const char* permString){
             continue;
         }
 
-        // readdir(dr);
-        // char* newPath = realpath(directory, path);
-        // //printf("%s\n", newPath);
-        // char* newDir = malloc(strlen(newPath) + strlen(dir->d_name) + 2);
-        // snprintf(newDir, strlen(newPath) + strlen(dir->d_name) + 2, "%s/%s", newPath, dir->d_name);
+        //readdir(dr);
+        char* newPath = realpath(directory, path);
+        //printf("%s\n", newPath);
+        char* newDir = malloc(strlen(newPath) + strlen(dir->d_name) + 2);
+        snprintf(newDir, strlen(newPath) + strlen(dir->d_name) + 2, "%s/%s", newPath, dir->d_name);
 
         //printf("%s\n", newPath);
-        char* newDir = malloc(strlen(directory) + strlen(dir->d_name) + 2);
-        snprintf(newDir, strlen(directory) + strlen(dir->d_name) + 2, "%s/%s", directory, dir->d_name);
+        // char* newDir = malloc(strlen(directory) + strlen(dir->d_name) + 2);
+        // snprintf(newDir, strlen(directory) + strlen(dir->d_name) + 2, "%s/%s", directory, dir->d_name);
 
         int status = stat(newDir, &fileinfo);
         if(status < 0){
