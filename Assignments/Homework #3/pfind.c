@@ -70,7 +70,6 @@ void navigatingFiles(const char* directory, const char* permString){
         //if statement: if file or dir, if dir then recursive call
 
         if(S_ISREG(fileinfo.st_mode)){
-            if(S_ISREG(fileinfo.st_mode)){
             char permBits[10] = "";
             char* r = "r";
             char* w = "w";
@@ -142,13 +141,12 @@ void navigatingFiles(const char* directory, const char* permString){
         }
 
         free(newDir);
-        }
 
     closedir(dr);
     }
 }
 
-int main(){
+int main(int argc, char* argv[]){
     
     // Test: Valid Strings
     // char* permString1 = "rwxrwxrwx";
@@ -171,6 +169,8 @@ int main(){
     //Test: Valid run
     // char* directory = "test_dir";
     // navigatingFiles(directory, "rwxrwx---");
+
+    navigatingFiles(argv[1], argv[2]);
 
     return 0;
 }
