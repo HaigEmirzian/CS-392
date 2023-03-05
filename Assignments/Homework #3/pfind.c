@@ -12,7 +12,7 @@
 //checks to see if permission string is valid
 bool validString(const char* permString){
     //checks to see if permString is 9 bits with null terminator
-    if(strlen(permString) != 10){
+    if(strlen(permString) != 9){
         fprintf(stderr, "Error: Permissions string '%s' is invalid.\n", permString);
         exit(EXIT_FAILURE);
     }
@@ -136,26 +136,41 @@ void navigatingFiles(const char* directory, const char* permString){
             if(strcmp(permBits, permString) == 0){
                 printf("%s\n", dir->d_name);
             }
-        } else if(S_ISDIR(fileinfo.st_mode)){
+        } 
+        else if(S_ISDIR(fileinfo.st_mode)){
             navigatingFiles(newDir, permString);
         }
 
         free(newDir);
-    }
+        }
 
     closedir(dr);
+    }
 }
 
 int main(){
     
-    //tests validString
-    // char* print = "rwxrwxrwx";
-    // validString(print);
+    // Test: Valid Strings
+    // char* permString1 = "rwxrwxrwx";
+    // char* permString2 = "rw-rw-r--";
+    // char* permString3 = "rwxrw-rw-";
 
-    //tests navigatingFiles
-    // char* danger_dir = "test_dir";
-    // char* permString = "rwxrwxrwx";
-    // navigatingFiles(danger_dir, permString);
+    // validString(permString1); // should return true
+    // validString(permString2); // should return true
+    // validString(permString3); // should return true
+    
+    // Test: Invalid Strings
+    // char* invalidPermString1 = "rwxrwxrwxr";
+    // char* invalidPermString2 = "rwxrwxrx!";
+    // char* invalidPermString3 = "rwrxw-rw-";
+
+    // validString(invalidPermString1); // should print error message and exit
+    // validString(invalidPermString2); // should print error message and exit
+    // validString(invalidPermString3); // should print error message and exit
+
+    //Test: Valid run
+    // char* directory = "test_dir";
+    // navigatingFiles(directory, "rwxrwx---");
 
     return 0;
 }
