@@ -55,7 +55,7 @@ void navigatingFiles(const char* directory, const char* permString){
     if((dr = opendir(directory)) == NULL){
         realpath(directory, path);
         fprintf(stderr, "Error: Cannot open directory '%s'. Permission denied.\n", path);
-        return;
+        exit(EXIT_FAILURE);
     }
     
     while((dir = readdir(dr)) != NULL){
