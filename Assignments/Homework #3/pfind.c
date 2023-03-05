@@ -44,16 +44,16 @@ bool validString(const char* permString){
 //recursively navigates directory tree and prints out files that match target perms
 void navigatingFiles(const char* directory, const char* permString){
     DIR* dr;
-    struct stat fileinfo;
     struct dirent* dir;
+    struct stat fileinfo;
+    char path[100];
 
-    if(validString(permString) == true){
+    if(validString(permString) != true){
         return;
     }
 
     if((dr = opendir(directory)) == NULL){
         readdir(dr);
-        char path[100];
         realpath(directory, path);
         fprintf(stderr, "Error: Cannot open directory '%s'. Permission denied.\n", path);
         return;
@@ -66,12 +66,12 @@ void navigatingFiles(const char* directory, const char* permString){
 
         char* newDir = malloc(strlen(directory) + strlen(dir->d_name) + 2);
         snprintf(newDir, strlen(directory) + strlen(dir->d_name) + 2, "%s/%s", directory, dir->d_name);
-
+        //printf("%s\n", newDir);
         int status = stat(newDir, &fileinfo);
         if(status < 0){
             fprintf(stderr, "Error: Cannot find information on file.\n");
         }
-
+       
         //snprintf() to concatenate /home and test_dir /home/test_dir
         //get perms of files or directory use stat() stat will give perms in number mode change to rwx format
         //use strcmp()
@@ -141,7 +141,7 @@ void navigatingFiles(const char* directory, const char* permString){
             strcat(permBits, "\0");
 
             if(strcmp(permBits, permString) == 0){
-                printf("%s\n", dir->d_name);
+                printf("%s\n", newDir);
             }
         }else if(S_ISDIR(fileinfo.st_mode)){
             navigatingFiles(newDir, permString);
