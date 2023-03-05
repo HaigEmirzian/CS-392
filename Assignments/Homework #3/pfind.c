@@ -45,6 +45,10 @@ void navigatingFiles(const char* directory, const char* permString){
     struct stat fileinfo;
     struct dirent* dir;
 
+    if(validString(permString) == true){
+        return;
+    }
+
     if((dr = opendir(directory)) == NULL){
         readdir(dr);
         char path[100];
@@ -55,7 +59,7 @@ void navigatingFiles(const char* directory, const char* permString){
     
     while((dir = readdir(dr)) != NULL){
         if(strcmp(dir->d_name, ".") == 0 || strcmp(dir->d_name, "..") == 0){
-            continue;
+            return;
         }
 
         char* newDir = malloc(strlen(directory) + strlen(dir->d_name) + 2);
