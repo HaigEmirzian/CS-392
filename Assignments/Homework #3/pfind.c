@@ -64,9 +64,16 @@ void navigatingFiles(const char* directory, const char* permString){
             continue;
         }
 
+        // readdir(dr);
+        // char* newPath = realpath(directory, path);
+        // //printf("%s\n", newPath);
+        // char* newDir = malloc(strlen(newPath) + strlen(dir->d_name) + 2);
+        // snprintf(newDir, strlen(newPath) + strlen(dir->d_name) + 2, "%s/%s", newPath, dir->d_name);
+
+        //printf("%s\n", newPath);
         char* newDir = malloc(strlen(directory) + strlen(dir->d_name) + 2);
         snprintf(newDir, strlen(directory) + strlen(dir->d_name) + 2, "%s/%s", directory, dir->d_name);
-        //printf("%s\n", newDir);
+
         int status = stat(newDir, &fileinfo);
         if(status < 0){
             fprintf(stderr, "Error: Cannot find information on file.\n");
