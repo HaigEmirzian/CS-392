@@ -34,9 +34,11 @@ bool validString(const char* permString){
 
             fprintf(stderr, "Error: Permissions string '%s' is invalid.\n", permString);
             exit(EXIT_FAILURE);
+        }else{
+            return true;
         }
     }
-    return true;
+    
 }
 
 //recursively navigates directory tree and prints out files that match target perms
@@ -59,14 +61,16 @@ void navigatingFiles(const char* directory, const char* permString){
     
     while((dir = readdir(dr)) != NULL){
         if(strcmp(dir->d_name, ".") == 0 || strcmp(dir->d_name, "..") == 0){
-            return;
+            continue;
         }
 
         char* newDir = malloc(strlen(directory) + strlen(dir->d_name) + 2);
         snprintf(newDir, strlen(directory) + strlen(dir->d_name) + 2, "%s/%s", directory, dir->d_name);
 
-        
         int status = stat(newDir, &fileinfo);
+        if(status < 0){
+            fprintf(stderr, "Error: Cannot find information on file.\n");
+        }
 
         //snprintf() to concatenate /home and test_dir /home/test_dir
         //get perms of files or directory use stat() stat will give perms in number mode change to rwx format
@@ -139,24 +143,24 @@ void navigatingFiles(const char* directory, const char* permString){
             if(strcmp(permBits, permString) == 0){
                 printf("%s\n", dir->d_name);
             }
-        } 
-        else if(S_ISDIR(fileinfo.st_mode)){
+        }else if(S_ISDIR(fileinfo.st_mode)){
             navigatingFiles(newDir, permString);
         }
 
         free(newDir);
-
-    closedir(dr);
     }
+    closedir(dr);
 }
 
 int main(int argc, char* argv[]){
     
+    navigatingFiles(argv[1], argv[2]);
+
     // Test: Valid Strings
-    // char* permString1 = "rwxrwxrwx";
+    //char* permString1 = "rwxrwxrwx";
     // char* permString2 = "rw-rw-r--";
     // char* permString3 = "rwxrw-rw-";
-
+    
     // validString(permString1); // should return true
     // validString(permString2); // should return true
     // validString(permString3); // should return true
@@ -173,8 +177,6 @@ int main(int argc, char* argv[]){
     //Test: Valid run
     // char* directory = "test_dir";
     // navigatingFiles(directory, "rwxrwx---");
-
-    navigatingFiles(argv[1], argv[2]);
 
     return 0;
 }
